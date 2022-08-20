@@ -1,0 +1,13 @@
+{% extends 'global/base.html' %}
+
+{% block title %}
+    Category | {{ category_name }} |
+{% endblock %}
+
+{% block content %}
+    <div class="main-content main-content-list container">
+        {% for recipe in recipes %}
+            {% include 'recipes/partials/_recipe.html' %}
+        {% endfor %}
+    </div>
+{% endblock %}
