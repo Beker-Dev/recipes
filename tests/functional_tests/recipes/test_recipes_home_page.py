@@ -34,4 +34,4 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
             '//a[@aria-label="Go to page 2"]'
         )
         page2.click()
-        self.assertEqual(len(self.browser.find_elements(By.CLASS_NAME, 'recipe')), 2)
+        self.assertEqual(len(self.browser.find_elements(By.CLASS_NAME, 'recipe')), 4)

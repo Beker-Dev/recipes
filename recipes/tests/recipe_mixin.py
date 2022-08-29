@@ -21,7 +21,7 @@ class RecipeMixin:
             preparation_steps='test',
             category=None,
             author=None,
-            is_published=True
+            is_published=False
         ):
 
         if category is None:

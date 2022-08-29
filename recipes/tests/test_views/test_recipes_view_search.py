@@ -6,7 +6,7 @@ from recipes import views
 class TestRecipesViewsSearch(RecipeTestBase):
     def test_recipes_search_view_function_is_correct(self):
         view = resolve(reverse('recipes:search'))
-        self.assertIs(view.func, views.search)
+        self.assertIs(view.func.view_class, views.RecipeListViewSearch)
 
     def test_recipes_search_view_function_returns_status_code_200_ok(self):
         url = reverse('recipes:search') + '?q=test'
@@ -17,10 +17,6 @@ class TestRecipesViewsSearch(RecipeTestBase):
         url = reverse('recipes:search') + '?q=test'
         response = self.client.get(url)
         self.assertTemplateUsed(response, 'recipes/pages/search.html')
-
-    def test_recipe_search_view_function_raises_404_if_not_search_term(self):
-        response = self.client.get(reverse('recipes:search'))
-        self.assertEqual(response.status_code, 404)
 
     def test_recipe_search_view_function_search_term_is_on_page_title_and_escaped(self):
         url = reverse('recipes:search') + '?q=TestSearch'
@@ -33,8 +29,9 @@ class TestRecipesViewsSearch(RecipeTestBase):
         title1 = 'New Recipe 1'
         title2 = 'New Recipe 2'
 
-        recipe1 = self.make_recipe(title=title1, slug='xyz-1', author=self.make_author(username='user1'))
-        recipe2 = self.make_recipe(title=title2, slug='xyz-2', author=self.make_author(username='user2'))
+        recipe1 = self.make_recipe(title=title1, slug='xyz-1', author=self.make_author(username='user1'),
+                                   is_published=True)
+        recipe2 = self.make_recipe(title=title2, slug='xyz-2', author=self.make_author(username='user2'), is_published=True)
 
         url1 = reverse('recipes:search') + f'?q={title1}'
         url2 = reverse('recipes:search') + f'?q={title2}'

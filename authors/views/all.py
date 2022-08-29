@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.contrib import messages
-from .forms.register_form import RegisterForm
-from .forms.login_form import LoginForm
-from .forms.author_recipe_form import AuthorRecipeForm
+from authors.forms.register_form import RegisterForm
+from authors.forms.login_form import LoginForm
+from authors.forms.author_recipe_form import AuthorRecipeForm
 from django.urls import reverse
 from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth import authenticate, login, logout
@@ -87,54 +87,3 @@ def dashboard(request: WSGIRequest) -> HttpResponse:
     author = request.user
     recipes = Recipe.objects.filter(author=author, is_published=False)
     return render(request, 'authors/pages/dashboard.html', {'recipes': recipes})
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_recipe_edit(request: WSGIRequest, recipe_id: int) -> HttpResponse:
-    author = request.user
-    recipe = get_object_or_404(Recipe, author=author, is_published=False, id=recipe_id)
-    form = AuthorRecipeForm(
-        data=request.POST or None,
-        files=request.FILES or None,
-        instance=recipe
-    )
-
-    if form.is_valid():
-        recipe = form.save(commit=False)
-        recipe.author = request.user
-        recipe.preparation_steps_is_html = False
-        recipe.save()
-        messages.success(request, 'Receita salva com sucesso!')
-        return redirect(reverse('authors:dashboard_recipe_edit', kwargs={'recipe_id': recipe.id}))
-
-    return render(request, 'authors/pages/dashboard_recipe_edit.html', {'recipe': recipe, 'form': form})
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_recipe_create(request: WSGIRequest) -> HttpResponse:
-    form = AuthorRecipeForm(
-        data=request.POST or None,
-        files=request.FILES or None,
-    )
-
-    if form.is_valid():
-        recipe = form.save(commit=False)
-        recipe.author = request.user
-        recipe.preparation_steps_is_html = False
-        recipe.save()
-        messages.success(request, 'Receita criada com sucesso!')
-        return redirect('authors:dashboard')
-    else:
-        return render(request, 'authors/pages/dashboard_recipe_create.html', {'form': form})
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_recipe_delete(request: WSGIRequest) -> HttpResponse:
-    if not request.POST:
-        return HttpResponseForbidden()
-    else:
-        recipe_id = request.POST.get('recipe_id')
-        recipe = get_object_or_404(Recipe, id=recipe_id)
-        recipe.delete()
-        messages.info(request, 'Receita deletada com sucesso!')
-        return redirect('authors:dashboard')

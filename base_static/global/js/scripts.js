@@ -4,7 +4,7 @@ function my_scope() {
     for (const form of forms) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const confirmed = confirm('Tem certeza?')
+            const confirmed = confirm('Tem certeza que deseja remover essa receita?')
 
             if (confirmed) {
                 form.submit();

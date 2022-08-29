@@ -7,7 +7,7 @@ import unittest
 class TestRecipesViewsDetail(RecipeTestBase):
     def test_recipes_detail_view_function_is_correct(self):
         view = resolve(reverse('recipes:detail', kwargs={'pk': 1}))
-        self.assertIs(view.func, views.detail)
+        self.assertIs(view.func.view_class, views.RecipeListViewDetail)
 
     # @unittest.skip('This method will not be executed')  -- this will skip method below
     def test_recipes_detail_view_function_returns_status_code_404_not_found_if_no_recipe_found(self):
@@ -16,7 +16,7 @@ class TestRecipesViewsDetail(RecipeTestBase):
 
     def test_recipes_detail_view_template_shows_recipes_if_recipe(self):
         title = 'Fast Food'
-        self.make_recipe(title=title)
+        self.make_recipe(title=title, is_published=True)
         response = self.client.get(reverse('recipes:detail', kwargs={'pk': 1}))
         template_content = response.content.decode('utf-8')
         self.assertIn(title, template_content)

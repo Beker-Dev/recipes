@@ -27,9 +27,8 @@ class TestRecipesModelRecipe(RecipeTestBase):
         )
 
     def test_recipe_is_published_is_false_by_default(self):
-        recipe = self.make_recipe_default()
         self.assertFalse(
-            recipe.is_published,
+            self.recipe.is_published,
             msg='recipe.is_published must be false as default'
         )
 

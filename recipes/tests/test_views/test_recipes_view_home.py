@@ -7,7 +7,7 @@ from unittest.mock import patch
 class TestRecipesViewsHome(RecipeTestBase):
     def test_recipes_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
-        self.assertIs(view.func, views.home)
+        self.assertIs(view.func.view_class, views.RecipeListViewHome)
 
     def test_recipes_home_view_function_returns_status_code_200_ok(self):
         response = self.client.get(reverse('recipes:home'))
@@ -26,7 +26,7 @@ class TestRecipesViewsHome(RecipeTestBase):
 
     def test_recipes_home_view_template_shows_recipes_if_recipes(self):
         title = 'New Recipe'
-        self.make_recipe(title=title)
+        self.make_recipe(title=title, is_published=True)
         response = self.client.get(reverse('recipes:home'))
         template_content = response.content.decode('utf-8')
         self.assertIn(title, template_content)
@@ -37,19 +37,4 @@ class TestRecipesViewsHome(RecipeTestBase):
         template_content = response.content.decode('utf-8')
         text = 'Não há receitas publicadas!'
         self.assertIn(text, template_content)
-
-    @patch('recipes.views.PER_PAGE', new=3)  # alter object value and return old value again, after it's used
-    def test_recipes_home_view_function_is_paginated(self):
-        self.make_recipes(amount=9)
-
-        # with patch('recipes.views.PER_PAGE', new=6):  #other way for using patch
-            # code here
-
-        url = reverse('recipes:home') + '?page=1'
-        response = self.client.get(url)
-        recipes = response.context.get('recipes')
-        paginator = recipes.paginator
-        self.assertEqual(paginator.num_pages, 3)
-        self.assertEqual(len(paginator.get_page(1)), 3)
-        self.assertEqual(paginator.count, 9)
 
