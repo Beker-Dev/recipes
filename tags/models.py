@@ -3,8 +3,8 @@ from django.utils.text import slugify
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=255, unique=True)
-    slug = models.SlugField(unique=True)
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=255, unique=True)
 
     def save(self, *args, **kwargs):
         self.name = self.name.lower()
