@@ -1,6 +1,6 @@
 {% if request.user.is_authenticated %}
     <div class="login-message">
-        Logado como <strong>{{ request.user.username }}</strong>,
+        Conectado como <strong>{{ request.user.username }}</strong>,
 
         <a href="{% url 'authors:dashboard' %}">Veja suas receitas</a>,
         <a href="{% url 'authors:dashboard_recipe_create' %}">Publique novas receitas</a>
