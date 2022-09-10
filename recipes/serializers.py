@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from .models import Category, Recipe
 from django.contrib.auth.models import User
-from tag.models import Tag
-from tag.serializers import TagSerializer
+from tags.models import Tag
+from tags.serializers import TagSerializer
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -18,7 +18,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     tag_links = serializers.HyperlinkedRelatedField(
         many=True,
         source='tags',
-        view_name='recipes:api_v2_tag',
+        view_name='tags:api-v1-detail',
         read_only=True
     )
 

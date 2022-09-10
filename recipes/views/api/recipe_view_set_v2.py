@@ -8,6 +8,7 @@ from .recipe_pagination_v2 import RecipePaginationV2
 from recipes.permissions import IsOwner
 from django.shortcuts import get_object_or_404
 
+from django.urls import reverse
 
 class RecipeViewSetV2(ModelViewSet):
     queryset = Recipe.objects.get_all_published_and_author_full_name()

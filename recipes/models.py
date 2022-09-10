@@ -6,7 +6,7 @@ from django.db.models.functions import Concat
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericRelation
-from tag.models import Tag
+from tags.models import Tag
 import os
 from django.conf import settings
 from PIL import Image
