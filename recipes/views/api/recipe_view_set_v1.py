@@ -4,16 +4,17 @@ from rest_framework import status
 from rest_framework.response import Response
 from recipes.models import Recipe
 from recipes.serializers import RecipeSerializer
-from .recipe_pagination_v2 import RecipePaginationV2
+from .recipe_pagination_v1 import RecipePaginationV1
 from recipes.permissions import IsOwner
 from django.shortcuts import get_object_or_404
 
 from django.urls import reverse
 
-class RecipeViewSetV2(ModelViewSet):
+
+class RecipeViewSetV1(ModelViewSet):
     queryset = Recipe.objects.get_all_published_and_author_full_name()
     serializer_class = RecipeSerializer
-    pagination_class = RecipePaginationV2
+    pagination_class = RecipePaginationV1
     permission_classes = [IsAuthenticatedOrReadOnly]
     http_method_names = ['get', 'post', 'patch', 'delete', 'options', 'head']
 
