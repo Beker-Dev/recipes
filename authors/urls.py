@@ -9,10 +9,8 @@ author_api_router = SimpleRouter()
 author_api_router.register('api', views.AuthorViewSet, basename='api')
 
 urlpatterns = [
-    path('register/', views.register_view, name='register'),
-    path('register/create/', views.register_create, name='register_create'),
-    path('login/', views.login_view, name='login'),
-    path('login/create/', views.login_create, name='login_create'),
+    path('register/', views.Register.as_view(), name='register'),
+    path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.Logout.as_view(), name='logout'),
     path('dashboard/', views.Dashboard.as_view(), name='dashboard'),
     path('dashboard/recipe/<int:recipe_id>/edit', views.DashboardRecipeEdit.as_view(), name='dashboard_recipe_edit'),

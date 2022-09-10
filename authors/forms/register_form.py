@@ -6,6 +6,18 @@ from utils.django_forms import is_strong_password
 
 class RegisterForm(forms.ModelForm):
 
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if len(first_name) < 4:
+            raise ValidationError('Esse campo deve conter no mínimo 4 caracteres', code='min_length')
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if len(last_name) < 4:
+            raise ValidationError('Esse campo deve conter no mínimo 4 caracteres', code='min_length')
+        return last_name
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
         exists = User.objects.filter(email=email)
@@ -28,7 +40,10 @@ class RegisterForm(forms.ModelForm):
             })
 
     first_name = forms.CharField(
-        error_messages={'required': 'Campo Nome não pode ficar vazio'},
+        error_messages={
+            'required': 'Campo Nome não pode ficar vazio',
+            'min_length': 'Esse campo deve conter no mínimo 4 caracteres',
+        },
         label='Nome',
         widget=forms.TextInput(
             attrs={
@@ -38,7 +53,10 @@ class RegisterForm(forms.ModelForm):
     )
 
     last_name = forms.CharField(
-        error_messages={'required': 'Campo Sobrenome não pode ficar vazio'},
+        error_messages={
+            'required': 'Campo Sobrenome não pode ficar vazio',
+            'min_length': 'Esse campo deve conter no mínimo 4 caracteres',
+        },
         label='Sobrenome',
         widget=forms.TextInput(
             attrs={
