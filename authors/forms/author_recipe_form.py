@@ -26,7 +26,7 @@ class AuthorRecipeForm(forms.ModelForm):
     servings_unit = forms.CharField(
         widget=forms.Select(
             choices=(
-                ('Portions', 'Porções'),
+                ('Servings', 'Porções'),
                 ('Pieces', 'Pedaços'),
                 ('Slices', 'Fatias'),
             )

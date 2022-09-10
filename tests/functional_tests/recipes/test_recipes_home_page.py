@@ -1,8 +1,8 @@
+from unittest.mock import patch
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import pytest
 from .base import RecipeBaseFunctionalTest
-from unittest.mock import patch
 
 
 @pytest.mark.functional_test
@@ -34,4 +34,4 @@ class RecipeHomePageFunctionalTest(RecipeBaseFunctionalTest):
             '//a[@aria-label="Go to page 2"]'
         )
         page2.click()
-        self.assertEqual(len(self.browser.find_elements(By.CLASS_NAME, 'recipe')), 4)
+        self.assertEqual(len(self.browser.find_elements(By.CLASS_NAME, 'recipe')), 2)
