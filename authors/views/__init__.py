@@ -1,4 +1,3 @@
 from .all import *
-from .dashboard_recipes import *
-from .profile import *
+from .site import *
 from .api import *

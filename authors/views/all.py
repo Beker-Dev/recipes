@@ -80,10 +80,3 @@ def logout_view(request: WSGIRequest) -> HttpResponse:
         else:
             logout(request)
             return redirect('authors:login')
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard(request: WSGIRequest) -> HttpResponse:
-    author = request.user
-    recipes = Recipe.objects.filter(author=author, is_published=False)
-    return render(request, 'authors/pages/dashboard.html', {'recipes': recipes})

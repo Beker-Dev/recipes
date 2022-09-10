@@ -10,6 +10,11 @@ from django.urls import reverse
 
 
 class DashboardRecipeBase(View):
+    def get_recipes(self):
+        author = self.request.user
+        recipes = Recipe.objects.filter(author=author, is_published=False)
+        return recipes
+
     def get_recipe(self, recipe_id: int) -> Recipe:
         recipe = get_object_or_404(Recipe, author=self.request.user, is_published=False, id=recipe_id)
         return recipe
