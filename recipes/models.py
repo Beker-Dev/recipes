@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.contenttypes.fields import GenericRelation
 from tag.models import Tag
-from django.utils.translation import gettext_lazy as _
 import os
 from django.conf import settings
 from PIL import Image
@@ -36,7 +35,7 @@ class Category(models.Model):
 
 class Recipe(models.Model):
     objects = RecipeManager()
-    title = models.CharField(max_length=65, unique=True, verbose_name=_('Title'))
+    title = models.CharField(max_length=65, unique=True)
     description = models.CharField(max_length=165,)
     slug = models.SlugField(unique=True)
     preparation_time_unit = models.CharField(max_length=65)
@@ -80,12 +79,11 @@ class Recipe(models.Model):
             image.close()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title) + '-' + str(self.id)
+        self.slug = slugify(self.title)
         super().save(*args, **kwargs)
         if self.cover:
             self.resize_image(self.cover)
 
-
     class Meta:
-        verbose_name = _('Recipe')
-        verbose_name_plural = _('Recipes')
+        verbose_name = 'Recipe'
+        verbose_name_plural = 'Recipes'

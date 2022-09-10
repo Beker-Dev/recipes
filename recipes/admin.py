@@ -17,8 +17,10 @@ class RecipeAdmin(admin.ModelAdmin):
     autocomplete_fields = ('tags',)
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    ...
-
-
-admin.site.register(Category, CategoryAdmin)
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name')
+    search_fields = ('name',)
+    list_per_page = 10
+    ordering = ('-id',)
