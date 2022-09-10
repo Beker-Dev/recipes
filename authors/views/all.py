@@ -65,18 +65,3 @@ def login_create(request: WSGIRequest) -> HttpResponse:
 
         messages.error(request, 'Usuário ou Senha invalidos')
         return redirect('authors:login')
-
-
-@login_required(login_url='authors:login', redirect_field_name='next')
-def logout_view(request: WSGIRequest) -> HttpResponse:
-    if not request.POST:
-        raise Http404()
-    else:
-        username_logged_in = request.user.username
-        username_in_form = request.POST.get('username')
-
-        if username_logged_in != username_in_form:
-            return HttpResponseForbidden()
-        else:
-            logout(request)
-            return redirect('authors:login')
