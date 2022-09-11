@@ -6,8 +6,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 app_name = 'recipes'
 
-recipe_api_v2_router = SimpleRouter()
-recipe_api_v2_router.register('recipes/api/v1', views.RecipeViewSetV1, basename='api-v1')
+recipe_api_v1_router = SimpleRouter()
+recipe_api_v1_router.register('recipes/api/v1', views.RecipeViewSetV1, basename='api-v1')
 
 urlpatterns = [
     path('', views.RecipeListViewHome.as_view(), name='home'),
@@ -18,5 +18,5 @@ urlpatterns = [
     path('recipes/api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('recipes/api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('recipes/api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
-    path('', include(recipe_api_v2_router.urls))
+    path('', include(recipe_api_v1_router.urls))
 ]

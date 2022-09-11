@@ -51,6 +51,7 @@ class RecipeViewSetV1(ModelViewSet):
     def get_queryset(self):
         qs = super().get_queryset()
         if not self.kwargs:
+            # filters just will be applied in list method
             qs = self.apply_filters(qs)
         return qs
 
